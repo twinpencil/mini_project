@@ -1,7 +1,10 @@
 import sqlite3 
 
+# ORM Employee
+
 class Employe:
     def __init__(self):
+        # initialising Database and database cursor
         self.conn = sqlite3.connect("./database.db")
         self.cursor = self.conn.cursor()
     
@@ -43,3 +46,6 @@ class Employe:
     def delete(self, id):
         self.cursor.execute("DELETE FROM Employe WHERE id = ?", (id,))
         self.conn.commit()
+    
+    def close_connection(self):
+        self.conn.close()
