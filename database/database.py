@@ -2,7 +2,7 @@ import sqlite3
 
 class Employe:
     def __init__(self):
-        self.conn = sqlite3.connect("database.db")
+        self.conn = sqlite3.connect("./database.db")
         self.cursor = self.conn.cursor()
     
     def create_table(self):
@@ -24,7 +24,7 @@ class Employe:
         self.conn.commit()
     
     def update(self, id, name, role, gender, status):
-        self.cursor.execute( "UPDATE Employe SET name = ? , role = ? , gender = ? , status ? WHERE id = ?",(name, role, gender, status, id))
+        self.cursor.execute( "UPDATE Employe SET name = ? , role = ? , gender = ? , status =  ? WHERE id = ?",(name, role, gender, status, id))
         self.conn.commit()
 
 
@@ -42,4 +42,5 @@ class Employe:
 
 if __name__ == '__main__':
     e = Employe()
-    e.create_table()
+    e.delete('c2')
+    print(e.fetch_by_id("c1"))
