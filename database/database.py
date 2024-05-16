@@ -36,11 +36,10 @@ class Employe:
         self.cursor.execute("SELECT * FROM Employe WHERE id = ?", (id,))
         return self.cursor.fetchone()
     
+    def is_exist(self, id):
+        self.cursor.execute("SELECT COUNT(*) FROM Employe WHERE id = ? ",(id,))
+        return self.cursor.fetchone()[0] > 0
+    
     def delete(self, id):
         self.cursor.execute("DELETE FROM Employe WHERE id = ?", (id,))
         self.conn.commit()
-
-if __name__ == '__main__':
-    e = Employe()
-    e.delete('c2')
-    print(e.fetch_by_id("c1"))
