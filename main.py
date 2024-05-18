@@ -168,5 +168,4 @@ delete_button.place(x=580,y=360)
 
 
 
-
 app.mainloop()
