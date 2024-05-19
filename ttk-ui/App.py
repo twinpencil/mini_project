@@ -57,7 +57,7 @@ class App(tb.Window):
         
         # New employe 
         self.new_btn = tb.Button(self.left, bootstyle='light', text="New Employee")
-        self.new_btn.grid(row=6, columnspan=2, padx=(10,20), pady=(10,40), sticky='ew')
+        self.new_btn.grid(row=6, columnspan=2, padx=(10,20), pady=(40,10), sticky='ew')
 
 
         # Rigth frame
