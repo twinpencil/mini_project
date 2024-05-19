@@ -66,7 +66,7 @@ class App(tb.Window):
         self.right.grid(row=0,column=1)
 
         # table 
-        self.table = tb.Treeview(self.right, columns=("name", "Role", "Gender", "Status"), bootstyle='success')
+        self.table = tb.Treeview(self.right, columns=("name", "Role", "Gender", "Status"), bootstyle='success', height=27)
 
         # heading
         self.table.heading("#0", text="ID")
@@ -76,15 +76,29 @@ class App(tb.Window):
         self.table.heading("Status", text="Status")
 
         # configuring
-
         self.table.column('#0', width=40)
-        self.table.column('name', width=150, anchor='w')
-        self.table.column('Role', width=150, anchor='w')
-        self.table.column('Gender', width=150, anchor='w')
-        self.table.column('Status', width=150, anchor='w')
-        self.table.grid(row=0, sticky='n', column=0, columnspan=2,)
+        self.table.column('name', width=150, anchor='center')
+        self.table.column('Role', width=150, anchor='center')
+        self.table.column('Gender', width=150, anchor='center')
+        self.table.column('Status', width=150, anchor='center')
+
+        #insert new values
 
 
+        self.table.insert(
+            parent="",
+            index='end',
+            text='C1',
+            values=("E1", "Developer", "Male" ,"Active")
+        )
+        self.table.grid(row=0,column=0, columnspan=2)
+
+        # button 
+        self.update_btn = tb.Button(self.right, bootstyle='light', text="Update Employee")
+        self.update_btn.grid(padx=(80,20), pady=5, row=1,column=0, sticky='we')
+        
+        self.delete_btn = tb.Button(self.right, bootstyle='danger', text="Delete Employee")
+        self.delete_btn.grid(padx=(20,80), pady=5, row=1,column=1, sticky='we')
 
 
 if __name__ == '__main__':
