@@ -9,6 +9,7 @@ class App(tb.Window):
         self.title("Employee management")
         self.geometry('920x480')
         self.server = Employe()
+        self.current_id = ""
 
         # creating left frame
         self.left = tb.Frame(self,bootstyle="success")
@@ -91,9 +92,10 @@ class App(tb.Window):
         self.update_btn = tb.Button(self.right, bootstyle='light', text="Update Employee", command=self.update_table)
         self.update_btn.grid(padx=(80,20), pady=5, row=1,column=0, sticky='we')
         
-        self.delete_btn = tb.Button(self.right, bootstyle='danger', text="Delete Employee")
+        self.delete_btn = tb.Button(self.right, bootstyle='danger', text="Delete Employee", command=self.delete_employe)
         self.delete_btn.grid(padx=(20,80), pady=5, row=1,column=1, sticky='we')
 
+        self.table.bind('<Button-1>', self.get_current_id)
         self.update_table()
 
     def add_employer(self):
@@ -132,6 +134,17 @@ class App(tb.Window):
             values=employee[1:]
         )
         print(employee)
+    
+    def get_current_id(self, event=None):
+        self.current_id = self.table.identify_row(event.y)
+    
+    def delete_employe(self):
+        id = self.current_id
+        
+        if id != '':
+            self.server.delete(id)
+            self.update_table()
+
 
 
 if __name__ == '__main__':
