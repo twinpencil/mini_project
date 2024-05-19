@@ -60,7 +60,7 @@ class App(tb.Window):
         self.add_btn.grid(row=5, columnspan=2, padx=(10,20), pady=(40,10), sticky='ew')
         
         # New employe 
-        self.new_btn = tb.Button(self.left, bootstyle='light', text="New Employee")
+        self.new_btn = tb.Button(self.left, bootstyle='light', text="Update", command=self.update_server)
         self.new_btn.grid(row=6, columnspan=2, padx=(10,20), pady=(40,10), sticky='ew')
 
 
@@ -89,7 +89,7 @@ class App(tb.Window):
         self.table.grid(row=0,column=0, columnspan=2)
 
         # button 
-        self.update_btn = tb.Button(self.right, bootstyle='light', text="Update Employee", command=self.update_table)
+        self.update_btn = tb.Button(self.right, bootstyle='light', text="Update Employee", command=self.update_employe)
         self.update_btn.grid(padx=(80,20), pady=5, row=1,column=0, sticky='we')
         
         self.delete_btn = tb.Button(self.right, bootstyle='danger', text="Delete Employee", command=self.delete_employe)
@@ -114,7 +114,7 @@ class App(tb.Window):
         
 
     def get(self):
-        id = self.id_ipt.get()
+        id = self.id_ipt.get().upper()
         name = self.name_ipt.get()
         role = self.role_ipt.get()
         gender = self.gender_ipt.get()
@@ -133,7 +133,6 @@ class App(tb.Window):
             text=employee[0],
             values=employee[1:]
         )
-        print(employee)
     
     def get_current_id(self, event=None):
         self.current_id = self.table.identify_row(event.y)
@@ -144,6 +143,36 @@ class App(tb.Window):
         if id != '':
             self.server.delete(id)
             self.update_table()
+
+    def update_employe(self):
+        id = self.current_id
+        if id == "":
+            return None
+        
+        # Updating employee
+        emp = self.server.fetch_by_id(id)
+
+        self.id_ipt.delete(0, 'end')
+        self.id_ipt.insert(0, emp[0])
+        
+        self.name_ipt.delete(0, 'end')
+        self.name_ipt.insert(0, emp[1])
+
+        self.role_ipt.delete(0, 'end')
+        self.role_ipt.insert(0, emp[2])
+
+        self.gender_ipt.set(emp[3])
+        self.status_ipt.delete(0, 'end')
+        self.status_ipt.insert(0, emp[4])
+    
+    def update_server(self):
+        emp = self.get()
+        for e in emp:
+            if e == '':
+                messagebox.showerror("Error !", "Error!\nForm can't be empy")
+                return None
+        self.server.update(*emp)
+        self.update_table()
 
 
 
