@@ -88,6 +88,7 @@ class App(tb.Window):
         self.table.insert(
             parent="",
             index='end',
+            iid=0,
             text='C1',
             values=("E1", "Developer", "Male" ,"Active")
         )
