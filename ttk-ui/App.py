@@ -1,4 +1,6 @@
 import ttkbootstrap as tb
+from  tkinter import messagebox
+from emp_db import Employe
 
 class App(tb.Window):
 
@@ -6,6 +8,7 @@ class App(tb.Window):
         super().__init__()
         self.title("Employee management")
         self.geometry('920x480')
+        self.server = Employe()
 
         # creating left frame
         self.left = tb.Frame(self,bootstyle="success")
@@ -52,7 +55,7 @@ class App(tb.Window):
 
 
         # Button 
-        self.add_btn = tb.Button(self.left, bootstyle='primary', text="Add Employee")
+        self.add_btn = tb.Button(self.left, bootstyle='primary', text="Add Employee", command=self.add_employer)
         self.add_btn.grid(row=5, columnspan=2, padx=(10,20), pady=(40,10), sticky='ew')
         
         # New employe 
@@ -82,24 +85,53 @@ class App(tb.Window):
         self.table.column('Gender', width=150, anchor='center')
         self.table.column('Status', width=150, anchor='center')
 
-        #insert new values
-
-
-        self.table.insert(
-            parent="",
-            index='end',
-            iid=0,
-            text='C1',
-            values=("E1", "Developer", "Male" ,"Active")
-        )
         self.table.grid(row=0,column=0, columnspan=2)
 
         # button 
-        self.update_btn = tb.Button(self.right, bootstyle='light', text="Update Employee")
+        self.update_btn = tb.Button(self.right, bootstyle='light', text="Update Employee", command=self.update_table)
         self.update_btn.grid(padx=(80,20), pady=5, row=1,column=0, sticky='we')
         
         self.delete_btn = tb.Button(self.right, bootstyle='danger', text="Delete Employee")
         self.delete_btn.grid(padx=(20,80), pady=5, row=1,column=1, sticky='we')
+
+        self.update_table()
+
+    def add_employer(self):
+        employe = self.get()
+        for e in employe:
+            if e == '':
+                messagebox.showerror("Error !", "Error!\nForm can't be empy")
+                return None
+        if not self.server.is_exist(employe[0]):
+            self.server.insert(*employe)
+            self.update_table()
+            return None
+        
+        messagebox.showwarning("Warnings", "Warnigns!\nEmployee Already exits !")
+        
+        
+
+    def get(self):
+        id = self.id_ipt.get()
+        name = self.name_ipt.get()
+        role = self.role_ipt.get()
+        gender = self.gender_ipt.get()
+        status = self.status_ipt.get()
+        return (id, name, role, gender ,status)
+    
+    def update_table(self):
+        employees = self.server.fetch_all()
+        self.table.delete(*self.table.get_children())
+        for employee in employees:
+            id = employee[0]
+            self.table.insert(
+            parent="",
+            index='end',
+            iid=id,
+            text=employee[0],
+            values=employee[1:]
+        )
+        print(employee)
 
 
 if __name__ == '__main__':
