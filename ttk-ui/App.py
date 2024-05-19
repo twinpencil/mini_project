@@ -59,6 +59,34 @@ class App(tb.Window):
         self.new_btn = tb.Button(self.left, bootstyle='light', text="New Employee")
         self.new_btn.grid(row=6, columnspan=2, padx=(10,20), pady=(10,40), sticky='ew')
 
+
+        # Rigth frame
+          # creating left frame
+        self.right = tb.Frame(self,bootstyle="success")
+        self.right.grid(row=0,column=1)
+
+        # table 
+        self.table = tb.Treeview(self.right, columns=("name", "Role", "Gender", "Status"), bootstyle='success')
+
+        # heading
+        self.table.heading("#0", text="ID")
+        self.table.heading("name", text="Name")
+        self.table.heading("Role", text="Role")
+        self.table.heading("Gender", text="Gender")
+        self.table.heading("Status", text="Status")
+
+        # configuring
+
+        self.table.column('#0', width=40)
+        self.table.column('name', width=150, anchor='w')
+        self.table.column('Role', width=150, anchor='w')
+        self.table.column('Gender', width=150, anchor='w')
+        self.table.column('Status', width=150, anchor='w')
+        self.table.grid(row=0, sticky='n', column=0, columnspan=2,)
+
+
+
+
 if __name__ == '__main__':
     t = App()
     t.mainloop()
