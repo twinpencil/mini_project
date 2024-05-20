@@ -4,6 +4,7 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 from PIL import Image,ImageTk
+#from database import Employe
 
 
 app = cutk.CTk()
@@ -21,56 +22,59 @@ app.resizable(False,False)
 
 font1 = ('Arial',20,'bold')
 font2 = ('Arial',12,'bold')
-
+####fonction#####
+#def ajouter_tree():
+    # employe = Employe.fetch
+####label,entry####
 id_label = cutk.CTkLabel(app,font=font1,
-                        text='ID : ',
-                        text_color="white",
-                        bg_color=color1)
+                            text='ID : ',
+                            text_color="white",
+                            bg_color=color1)
 id_label.place(x=20,y=20)
 
 id_entrey = cutk.CTkEntry(app,font=font1,
-                        text_color="black",
-                        fg_color="white",
-                        #border_color='black',
-                        #border_width=3,
-                        corner_radius=0,
-                        border_color="white",
-                        width=180,
-                        bg_color=color1)
+                            text_color="black",
+                            fg_color="white",
+                            #border_color='black',
+                            #border_width=3,
+                            corner_radius=0,
+                            border_color="white",
+                            width=180,
+                            bg_color=color1)
 id_entrey.place(x=100,y=20)
 
 name_label = cutk.CTkLabel(app,font=font1,
-                        text='Name : ',
-                        text_color="white",
-                        bg_color=color1)
+                            text='Name : ',
+                            text_color="white",
+                            bg_color=color1)
 name_label.place(x=20,y=80)
 
 name_entry = cutk.CTkEntry(app,font=font1,
-                        text_color='black',
-                        fg_color="white",
-                        #border_color='black',
-                        corner_radius=0,
-                        #border_width=3,
-                        border_color="white",
-                        width=180,
-                        bg_color=color1)
+                            text_color='black',
+                            fg_color="white",
+                            #border_color='black',
+                            corner_radius=0,
+                            #border_width=3,
+                            border_color="white",
+                            width=180,
+                            bg_color=color1)
 name_entry.place(x=100,y=80)
 
 role_label = cutk.CTkLabel(app,font=font1,
-                        text='Role : ',
-                        text_color="white",
-                        bg_color=color1)
+                            text='Role : ',
+                            text_color="white",
+                            bg_color=color1)
 role_label.place(x=20,y=140)
 
 role_entry = cutk.CTkEntry(app,font=font1,
-                        text_color='black',
-                        fg_color="white",
-                        #border_color='black',
-                        #border_width=2,
-                        corner_radius=0,
-                        width=180,
-                        border_color="white",
-                        bg_color=color1)
+                            text_color='black',
+                            fg_color="white",
+                            #border_color='black',
+                            #border_width=2,
+                            corner_radius=0,
+                            width=180,
+                            border_color="white",
+                            bg_color=color1)
 role_entry.place(x=100,y=140)
 
 gender_label = cutk.CTkLabel(app,font=font1,
@@ -83,20 +87,20 @@ options = ['Homme','femme']
 var1 = StringVar()
 
 gender_options = cutk.CTkComboBox(app,
-                font=font1,
-                text_color="black",
-                fg_color="white",
-                dropdown_hover_color=color2,
-                button_color=color2,
-                button_hover_color='#0C9295',
-                #border_color='#0C9295',
-                width=180,variable=var1,
-                #corner_radius=15,
-                corner_radius=0,
-                bg_color=color1,
-                values=options,
-                border_color="white",
-                state="readonly")
+                            font=font1,
+                            text_color="black",
+                            fg_color="white",
+                            dropdown_hover_color=color2,
+                            button_color=color2,
+                            button_hover_color='#33c155',
+                            #border_color='#0C9295',
+                            width=180,variable=var1,
+                            #corner_radius=15,
+                            corner_radius=0,
+                            bg_color=color1,
+                            values=options,
+                            border_color="white",
+                            state="readonly")
 gender_options.set('Homme')
 gender_options.place(x=100,y=200)
 
@@ -121,7 +125,7 @@ add_button = cutk.CTkButton(app,font=font1,
                             text_color="white",
                             text='Ajouter Employe',
                             fg_color=color2,
-                            hover_color='#00850B',
+                            hover_color='silver',
                             bg_color=color1,
                             cursor ='hand2',
                             corner_radius=0,
@@ -133,10 +137,12 @@ add_button.place(x=20,y=310)
 clear_button = cutk.CTkButton(app,font=font1,
                             text_color=color2,
                             text='Clear',
-                            fg_color="white",
-                            hover_color='#00850B',
-                            bg_color=color1,
+                            fg_color=color1,
+                            hover_color='white',
+                            #bg_color=color1,
                             cursor ='hand2',
+                            border_color="white",
+                            border_width=2,
                             corner_radius=0,
                             width=260 )
 clear_button.place(x=20,y=360)
@@ -144,9 +150,11 @@ clear_button.place(x=20,y=360)
 update_button = cutk.CTkButton(app,font=font1,
                             text_color=color2,
                             text='Update Employe',
-                            fg_color="white",
-                            hover_color='#00850B',
-                            bg_color=color1,
+                            fg_color=color1,
+                            hover_color='white',
+                            #bg_color=color1,
+                            border_color='white',
+                            border_width=2,
                             cursor ='hand2',
                             corner_radius=0,
                             width=260 )
@@ -156,16 +164,37 @@ delete_button = cutk.CTkButton(app,font=font1,
                             text_color="white",
                             text='Delete Employe',
                             fg_color=color3,
-                            hover_color='#00850B',
+                            hover_color='silver',
                             bg_color=color1,
                             cursor ='hand2',
                             corner_radius=0,
                             width=260 )
 delete_button.place(x=580,y=360)
+#style
+style =ttk.Style(app)
 
+style.theme_use('clam')
+style.configure('Treeview',font=font2,foreground='white',background=color1,fieldbackground=color4,borderwidth=0, relief='flat')
+style.map('Treeview',background=[('selected',color4)])
 
+tree = ttk.Treeview(app,height=19)
+tree['columns'] = ('ID','Name','Role','Gender','Status')
 
+tree.column('#0',width=0,stretch=tk.NO) #hide the default ffirst colomn
+tree.column('ID',anchor=tk.CENTER,width=135)
+tree.column('Name',anchor=tk.CENTER,width=134)
+tree.column('Role',anchor=tk.CENTER,width=134)
+tree.column('Gender',anchor=tk.CENTER,width=134)
+tree.column('Status',anchor=tk.CENTER,width=134)
 
+#head
+tree.heading('ID',text='ID')
+tree.heading('Name',text='Name')
+tree.heading('Role',text='Role')
+tree.heading('Gender',text='Gender')
+tree.heading('Status',text='Status')
 
+#PLACE
+tree.place(x=375,y=20)
 
 app.mainloop()
