@@ -2,4 +2,6 @@ build
 ./build/*
 setup.py
 ./database/__pycache__/*
+./__pycache__/*
 test.py
+./maintest.py

@@ -37,8 +37,11 @@ def add_employe(event=None):
     db.insert(id,name, role, genre, status)
     refresh_database()
 
-
-
+def clear_entry(event=None):
+    id_entrey.delete(0,'end')
+    name_entry.delete(0,'end')
+    role_entry.delete(0,'end')
+    status_entry.delete(0,'end')
 
 
 app = cutk.CTk()
@@ -179,7 +182,8 @@ clear_button = cutk.CTkButton(app,font=font1,
                             border_color="white",
                             border_width=2,
                             corner_radius=0,
-                            width=260 )
+                            width=260,
+                             command=clear_entry )
 clear_button.place(x=20,y=360)
 
 update_button = cutk.CTkButton(app,font=font1,
