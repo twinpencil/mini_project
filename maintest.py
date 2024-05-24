@@ -10,6 +10,104 @@ from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 #from database import Employe
 
+from database import Employe
+id = None
+
+
+# Databases 
+db = Employe.Employe()
+
+# get data from databases
+def get_entrie(event=None):
+    id = id_entry.get()
+    name = name_entry.get()
+    status = status_entry.get()
+    role = role_entry.get()
+    genre = gender_options.get()
+    return (id, name, status,genre, role)
+
+# get data from entries 
+
+def clear_tree(event=None):
+    for t in tree.get_children():
+        tree.delete(t)
+
+def refresh_database(event=None):
+    employes = db.fetch_all()
+    clear_tree()
+    for employe in employes:
+        tree.insert(
+            "",
+            index='end',
+            text="",
+            values=employe
+        )
+
+# add employe to databases 
+def add_employe(event=None):
+    id = id_entry.get().upper()
+    name = name_entry.get()
+    status = status_entry.get()
+    role = role_entry.get()
+    genre = gender_options.get()
+    
+    if db.is_exist(id):
+        messagebox.showerror("Insert Error", "Employe already exist !")
+        return None
+    
+    if id == "" or name == "" or status == " " or role == " ":
+        messagebox.showerror("Error", "Input can not be empty !")
+        return None
+    db.insert(id,name, role, genre, status)
+    refresh_database()
+
+def clear_entry(event=None):
+    id_entry.delete(0,'end')
+    name_entry.delete(0,'end')
+    role_entry.delete(0,'end')
+    status_entry.delete(0,'end')
+
+def set_current_id(event=None):
+    global id
+    current = tree.focus()
+    employe = tree.item(current, 'values')
+    try:
+        id = employe[0]
+    except:
+        return None
+    
+def delete_employe(event=None):
+    set_current_id()
+    global id
+    db.delete(id)
+    refresh_database()
+
+def update_employe():
+    employe = get_entrie()
+    if db.is_exist(employe[0].upper()):
+        db.update(*employe)
+    else:
+        add_employe()
+    refresh_database()
+
+def change_value(widget : tk.Entry, value):
+    widget.delete(0, 'end')
+    widget.insert(0, value)
+
+def load_data(event=None):
+    set_current_id()
+    global id
+    employe = db.fetch_by_id(id)
+    
+    # update entry value 
+    change_value(id_entry, employe[0])
+    change_value(name_entry, employe[1])
+    change_value(role_entry, employe[2])
+    change_value(status_entry, employe[4])
+    gender_options.set(employe[3])
+    print(employe)
+
+
 app = cutk.CTk()
 
 color1 = "#315041" #green
@@ -343,7 +441,8 @@ add_button = cutk.CTkButton(main_frame,font=font1,
                             corner_radius=0,
                             border_width=2,
                             #border_color=color2,
-                            width=260 )
+                            width=260,
+                            command=add_employe)
 add_button.place(x=20,y=330)
 ########CLEAR BUTTON########
 clear_button = cutk.CTkButton(main_frame,font=font1,
@@ -356,7 +455,8 @@ clear_button = cutk.CTkButton(main_frame,font=font1,
                             border_color="white",
                             border_width=2,
                             corner_radius=0,
-                            width=260 )
+                            width=260,
+                            command=clear_entry)
 clear_button.place(x=20,y=380)
 ########UPDATE BUTTON########
 update_button = cutk.CTkButton(main_frame,font=font1,
@@ -369,7 +469,8 @@ update_button = cutk.CTkButton(main_frame,font=font1,
                             border_width=2,
                             cursor ='hand2',
                             corner_radius=0,
-                            width=260 )
+                            width=260,
+                            command=update_employe)
 update_button.place(x=300,y=380)
 ########DELETE BUTTON########
 delete_button = cutk.CTkButton(main_frame,font=font1,
@@ -379,7 +480,8 @@ delete_button = cutk.CTkButton(main_frame,font=font1,
                             bg_color=color1,
                             cursor ='hand2',
                             corner_radius=0,
-                            width=260 )
+                            width=260,
+                            command=delete_employe)
 delete_button.place(x=580,y=380)
 ########REPORT BUTTON########
 report_button = cutk.CTkButton(main_frame,font=font1,
@@ -457,4 +559,8 @@ back_button.pack(pady=20)
 
 
 dark()
+refresh_database()
+# adding events 
+tree.bind('<Button-1>', set_current_id)
+tree.bind('<Double-Button-1>', load_data)
 app.mainloop()
