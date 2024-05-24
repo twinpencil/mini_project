@@ -18,7 +18,7 @@ def get_entrie(event=None):
     status = status_entry.get()
     role = role_entry.get()
     genre = gender_options.get()
-    return (id, name, status, role, genre)
+    return (id, name, status,genre, role)
 
 # get data from entries 
 
@@ -74,7 +74,33 @@ def delete_employe(event=None):
     set_current_id()
     global id
     db.delete(id)
-    refresh_database() 
+    refresh_database()
+
+def update_employe():
+    employe = get_entrie()
+    if db.is_exist(employe[0].upper()):
+        db.update(*employe)
+    else:
+        add_employe()
+    refresh_database()
+
+def change_value(widget : tk.Entry, value):
+    widget.delete(0, 'end')
+    widget.insert(0, value)
+
+def load_data(event=None):
+    set_current_id()
+    global id
+    employe = db.fetch_by_id(id)
+    
+    # update entry value 
+    change_value(id_entrey, employe[0])
+    change_value(name_entry, employe[1])
+    change_value(role_entry, employe[2])
+    change_value(status_entry, employe[4])
+    gender_options.set(employe[3])
+    print(employe)
+
 
 
 app = cutk.CTk()
@@ -230,7 +256,8 @@ update_button = cutk.CTkButton(app,font=font1,
                             border_width=2,
                             cursor ='hand2',
                             corner_radius=0,
-                            width=260 )
+                            width=260,
+                            command=update_employe)
 update_button.place(x=300,y=360)
 
 delete_button = cutk.CTkButton(app,font=font1,
@@ -271,6 +298,8 @@ tree.heading('Status',text='Status')
 #PLACE
 tree.place(x=375,y=20)
 
+# adding events 
 tree.bind('<Button-1>', set_current_id)
+tree.bind('<Double-Button-1>', load_data)
 refresh_database()
 app.mainloop()
