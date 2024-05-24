@@ -177,7 +177,7 @@ style.theme_use('clam')
 style.configure('Treeview',font=font2,foreground='white',background=color1,fieldbackground=color4,borderwidth=8, relief='flat',highlightthickness=6)
 style.map('Treeview',background=[('selected',color4)])
 
-tree = ttk.Treeview(app,height=19)
+tree = ttk.Treeview(app,height=14)
 tree['columns'] = ('ID','Name','Role','Gender','Status')
 
 tree.column('#0',width=0,stretch=tk.NO) #hide the default ffirst colomn
