@@ -81,14 +81,16 @@ def export(a):
                     values = tree.item(item,'values')
                     text = ', '.join(values) # Concatenate values into a string
                     f.write(text +'\n')
-    elif a=="pdf":
-        file_path = filedialog.asksaveasfilename(defaultextension=".pdf",filetypes=[("PDF files","*.pdf")])
+    elif a == "pdf":
+        file_path = filedialog.asksaveasfilename(defaultextension=".pdf", filetypes=[("PDF files", "*.pdf")])
         if file_path:
-            c = canvas.Canvas(file_path,pagesize=letter)# Generate a PDF document
+            c = canvas.Canvas(file_path, pagesize=letter)  # Generate a PDF document
+            y_position = 750  # Initial vertical position for the first line
             for item in tree.get_children():
-                values = tree.item(item,'values')
+                values = tree.item(item, 'values')
                 text = ', '.join(values)
-                c.drawString(100,750,text)  # Write the text to the PDF
+                c.drawString(100, y_position, text)  # Write the text to the PDF
+                y_position -= 12  # Move down by 12 units 
             c.save()
 ####LIGHT AND DARK MODE####
 light_mode_color = {

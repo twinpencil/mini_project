@@ -7,5 +7,5 @@ setup(
     version="1.0",
     description="this my app ",
     options={"build_exe": build_exe_options},
-    executables=[Executable("maintest.py", base=None)],
+    executables=[Executable("maintest.py", base=None,icon="employee.ico")],
 )
