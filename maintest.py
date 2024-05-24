@@ -8,6 +8,7 @@ from CTkMenuBar import *
 from tkinter import filedialog
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
+import time
 #from database import Employe
 
 app = cutk.CTk()
@@ -33,6 +34,7 @@ def login():
     password = password_entry.get()
     if username in users and users[username]==password:
         login_frame.pack_forget()
+        time.sleep(0.5)
         main_frame.pack(fill='both',expand=True)
     else:
         messagebox.showerror("Login Failed", "Invalid username or password")
@@ -48,22 +50,26 @@ def signup():
 ####REPORT####
 def show_report():
     main_frame.pack_forget()
+    time.sleep(0.5)
     report_frame.pack(fill='both',expand=True)
 ####BACK TO MAIN####
 def back_to_main():
     about_us_frame.pack_forget()
     report_frame.pack_forget()
+    time.sleep(0.5)
     main_frame.pack(fill='both',expand=True)
 ####LOG OUT####
 def log_out():
     if messagebox.askyesno("Log out","Are you sure you want to lougout ?"):
         login_frame.pack(fill='both',expand=True)
+        time.sleep(0.5)
         main_frame.pack_forget()
         user_entry.delete(0,END)
         password_entry.delete(0,END)
 ####ABOUT####
 def about_us():
     main_frame.pack_forget()
+    time.sleep(0.5)
     about_us_frame.pack(fill='both',expand=True)
 ####EXPORT####
 def export(a):
@@ -75,14 +81,16 @@ def export(a):
                     values = tree.item(item,'values')
                     text = ', '.join(values) # Concatenate values into a string
                     f.write(text +'\n')
-    elif a=="pdf":
-        file_path = filedialog.asksaveasfilename(defaultextension=".pdf",filetypes=[("PDF files","*.pdf")])
+    elif a == "pdf":
+        file_path = filedialog.asksaveasfilename(defaultextension=".pdf", filetypes=[("PDF files", "*.pdf")])
         if file_path:
-            c = canvas.Canvas(file_path,pagesize=letter)# Generate a PDF document
+            c = canvas.Canvas(file_path, pagesize=letter)  # Generate a PDF document
+            y_position = 750  # Initial vertical position for the first line
             for item in tree.get_children():
-                values = tree.item(item,'values')
+                values = tree.item(item, 'values')
                 text = ', '.join(values)
-                c.drawString(100,750,text)  # Write the text to the PDF
+                c.drawString(100, y_position, text)  # Write the text to the PDF
+                y_position -= 12  # Move down by 12 units 
             c.save()
 ####LIGHT AND DARK MODE####
 light_mode_color = {
@@ -95,16 +103,6 @@ light_mode_color = {
     "text": "#FB6376", # black
     "delete_fg": "#FA5E23", # orange-red
     "silver":"silver"
-    #"fg":"#03045E",
-    #"bg":"#03045E",
-    # "button_bg":"#",
-    #"button_hover" : "#AAAAAA",
-    #"entry_bg":"#1F2E26",
-    #"entry_fg":"#66DC96",
-    #"tree_bg":"#FFFFFF",
-    #"tree_fg":"#000000",
-    #"tree_selected_bg":"#CCCCCC",
-    #"tree_selected_fg":"#000000"
 }
 dark_mode_color = {
     "bg":"#315041", #dark bleu
@@ -137,9 +135,9 @@ def change_colors():
     for button3 in [login_button,add_button]:
         button3.configure(fg_color = colors["bg"],text_color = colors["text"],hover_color = colors["silver"],bg_color = colors["bg"],border_color = colors["bg"])
     #for tree in [tree,report_tree]:
-     #   style = ttk.Style(app)
-       # style.configure('Treeview',font= font2 , foreground = colors["tree_fg"],background = colors["tree_bg"],fieldbackground=colors["tree_bg"])
-       # style.map('Treeview',background = [('selected',colors["tree_selected_bg"])],foreground=[('selected',colors["tree_selected_fg"])])
+    #   style = ttk.Style(app)
+    # style.configure('Treeview',font= font2 , foreground = colors["tree_fg"],background = colors["tree_bg"],fieldbackground=colors["tree_bg"])
+    # style.map('Treeview',background = [('selected',colors["tree_selected_bg"])],foreground=[('selected',colors["tree_selected_fg"])])
 def light(): 
     global mode
     mode = "light"
@@ -295,9 +293,8 @@ gender_label = cutk.CTkLabel(main_frame,font=font1,
                             bg_color=color1)
 gender_label.place(x=20,y=220)
 ########GENDER COMBOBOX########
-options = ['Homme','femme']
+options = ['Man','Women']
 var1 = StringVar()
-
 gender_options = cutk.CTkComboBox(main_frame,
                             font=font1,
                             text_color="black",
@@ -313,7 +310,7 @@ gender_options = cutk.CTkComboBox(main_frame,
                             values=options,
                             border_color="white",
                             state="readonly")
-gender_options.set('Homme')
+gender_options.set('Man')
 gender_options.place(x=100,y=220)
 ########STATUS LABEL########
 status_label = cutk.CTkLabel(main_frame,font=font1,
@@ -335,7 +332,7 @@ status_entry.place(x=100,y=280)
 ########ADD BUTTON########
 add_button = cutk.CTkButton(main_frame,font=font1,
                             text_color="white",
-                            text='Ajouter Employe',
+                            text='Add Employe',
                             #fg_color=color2,
                             #hover_color='silver',
                             #bg_color=color1,
@@ -394,14 +391,12 @@ report_button = cutk.CTkButton(main_frame,font=font1,
                             width=260,
                             command=show_report)
 report_button.place(x=860,y=380)
-
 style =ttk.Style(app)
 style.theme_use('clam')
 style.configure('Treeview',font=font2,foreground='white',
                             background=color1,fieldbackground=color4,
                             )
 style.map('Treeview',background=[('selected',color4)])
-
 tree = ttk.Treeview(main_frame,height=19)
 tree['columns'] = ('ID','Name','Role','Gender','Status')
 ########REPORT COLUMN########
@@ -452,9 +447,6 @@ back_button = cutk.CTkButton(report_frame,font=font1,
                             hover_color='white',
                             width=260,command=back_to_main)
 back_button.pack(pady=20)
-
 #report_frame.pack_forget()
-
-
 dark()
 app.mainloop()
