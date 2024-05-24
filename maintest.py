@@ -24,7 +24,7 @@ def get_entrie(event=None):
     status = status_entry.get()
     role = role_entry.get()
     genre = gender_options.get()
-    return (id, name, status,genre, role)
+    return (id, name, role ,genre, status)
 
 # get data from entries 
 
@@ -504,7 +504,7 @@ style.configure('Treeview',font=font2,foreground='white',
                             )
 style.map('Treeview',background=[('selected',color4)])
 
-tree = ttk.Treeview(main_frame,height=19)
+tree = ttk.Treeview(main_frame,height=15)
 tree['columns'] = ('ID','Name','Role','Gender','Status')
 ########REPORT COLUMN########
 tree.column('#0',width=0,stretch=tk.NO) #hide the default ffirst colomn
