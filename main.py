@@ -11,6 +11,15 @@ from database import Employe
 db = Employe.Employe()
 
 # get data from databases
+def get_entrie(event=None):
+    id = id_entrey.get()
+    name = name_entry.get()
+    status = status_entry.get()
+    role = role_entry.get()
+    genre = gender_options.get()
+    return (id, name, status, role, genre)
+
+# get data from entries 
 
 def clear_tree(event=None):
     for t in tree.get_children():
@@ -29,6 +38,7 @@ def refresh_database(event=None):
 
 # add employe to databases 
 def add_employe(event=None):
+    print(get_entrie())
     id = id_entrey.get()
     name = name_entry.get()
     status = status_entry.get()
