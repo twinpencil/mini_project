@@ -10,9 +10,15 @@ from database import Employe
 # Databases 
 db = Employe.Employe()
 
+# get data from databases
+
+def clear_tree(event=None):
+    for t in tree.get_children():
+        tree.delete(t)
+
 def refresh_database(event=None):
     employes = db.fetch_all()
-
+    clear_tree()
     for employe in employes:
         tree.insert(
             "",
@@ -20,6 +26,16 @@ def refresh_database(event=None):
             text="",
             values=employe
         )
+
+# add employe to databases 
+def add_employe(event=None):
+    id = id_entrey.get()
+    name = name_entry.get()
+    status = status_entry.get()
+    role = role_entry.get()
+    genre = gender_options.get()
+    db.insert(id,name, role, genre, status)
+    refresh_database()
 
 
 
@@ -149,7 +165,8 @@ add_button = cutk.CTkButton(app,font=font1,
                             corner_radius=0,
                             border_width=2,
                             #border_color=color2,
-                            width=260 )
+                            width=260,
+                             command=add_employe )
 add_button.place(x=20,y=310)
 
 clear_button = cutk.CTkButton(app,font=font1,
