@@ -174,7 +174,7 @@ delete_button.place(x=580,y=360)
 style =ttk.Style(app)
 
 style.theme_use('clam')
-style.configure('Treeview',font=font2,foreground='white',background=color1,fieldbackground=color4,borderwidth=0, relief='flat')
+style.configure('Treeview',font=font2,foreground='white',background=color1,fieldbackground=color4,borderwidth=8, relief='flat',highlightthickness=6)
 style.map('Treeview',background=[('selected',color4)])
 
 tree = ttk.Treeview(app,height=19)
