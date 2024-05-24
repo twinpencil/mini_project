@@ -4,7 +4,25 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 from PIL import Image,ImageTk
-#from database import Employe
+from database import Employe
+
+
+# Databases 
+db = Employe.Employe()
+
+def refresh_database(event=None):
+    employes = db.fetch_all()
+
+    for employe in employes:
+        tree.insert(
+            "",
+            index='end',
+            text="",
+            values=employe
+        )
+
+
+
 
 
 app = cutk.CTk()
@@ -196,5 +214,5 @@ tree.heading('Status',text='Status')
 
 #PLACE
 tree.place(x=375,y=20)
-
+refresh_database()
 app.mainloop()
