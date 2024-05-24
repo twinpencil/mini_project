@@ -5,6 +5,7 @@ from tkinter import ttk
 from tkinter import messagebox
 from PIL import Image,ImageTk
 from database import Employe
+id = None
 
 
 # Databases 
@@ -38,12 +39,19 @@ def refresh_database(event=None):
 
 # add employe to databases 
 def add_employe(event=None):
-    print(get_entrie())
-    id = id_entrey.get()
+    id = id_entrey.get().upper()
     name = name_entry.get()
     status = status_entry.get()
     role = role_entry.get()
     genre = gender_options.get()
+    
+    if db.is_exist(id):
+        messagebox.showerror("Insert Error", "Employe already exist !")
+        return None
+    
+    if id == "" or name == "" or status == " " or role == " ":
+        messagebox.showerror("Error", "Input can not be empty !")
+        return None
     db.insert(id,name, role, genre, status)
     refresh_database()
 
@@ -52,6 +60,21 @@ def clear_entry(event=None):
     name_entry.delete(0,'end')
     role_entry.delete(0,'end')
     status_entry.delete(0,'end')
+
+def set_current_id(event=None):
+    global id
+    current = tree.focus()
+    employe = tree.item(current, 'values')
+    try:
+        id = employe[0]
+    except:
+        return None
+    
+def delete_employe(event=None):
+    set_current_id()
+    global id
+    db.delete(id)
+    refresh_database() 
 
 
 app = cutk.CTk()
@@ -66,6 +89,7 @@ app.title('MANAGEMENT DES EMPLOYEES')
 app.geometry("900x420")
 app.config(bg=color1)
 app.resizable(False,False)
+
 
 font1 = ('Arial',20,'bold')
 font2 = ('Arial',12,'bold')
@@ -217,7 +241,8 @@ delete_button = cutk.CTkButton(app,font=font1,
                             bg_color=color1,
                             cursor ='hand2',
                             corner_radius=0,
-                            width=260 )
+                            width=260,
+                            command=delete_employe)
 delete_button.place(x=580,y=360)
 #style
 style =ttk.Style(app)
@@ -226,7 +251,7 @@ style.theme_use('clam')
 style.configure('Treeview',font=font2,foreground='white',background=color1,fieldbackground=color4,borderwidth=8, relief='flat',highlightthickness=6)
 style.map('Treeview',background=[('selected',color4)])
 
-tree = ttk.Treeview(app,height=14)
+tree = ttk.Treeview(app,height=15)
 tree['columns'] = ('ID','Name','Role','Gender','Status')
 
 tree.column('#0',width=0,stretch=tk.NO) #hide the default ffirst colomn
@@ -245,5 +270,7 @@ tree.heading('Status',text='Status')
 
 #PLACE
 tree.place(x=375,y=20)
+
+tree.bind('<Button-1>', set_current_id)
 refresh_database()
 app.mainloop()
