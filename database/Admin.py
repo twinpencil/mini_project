@@ -2,7 +2,7 @@ import sqlite3
 
 # ORM Admin
 
-class Employe:
+class Admin:
     def __init__(self):
         # initialising Database and database cursor
         self.conn = sqlite3.connect("./database.db")
@@ -11,10 +11,9 @@ class Employe:
     def create_table(self):
         self.cursor.execute('''
         CREATE TABLE IF NOT EXISTS "Admin" (
-            "id"	TEXT NOT NULL AUTO_INCREMENT,
+            "id" INTEGER	PRIMARY KEY AUTOINCREMENT,
             "username"	TEXT NOT NULL,
-            "password"	TEXT NOT NULL,
-            PRIMARY KEY("id")
+            "password"	TEXT NOT NULL
         );
         ''')
         self.conn.commit()

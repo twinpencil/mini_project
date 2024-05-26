@@ -1,5 +1,4 @@
-build
-./build/*
+build/*
 setup.py
 ./database/__pycache__/*
 ./__pycache__/*
