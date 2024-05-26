@@ -30,6 +30,16 @@ class Admin:
         self.cursor.execute("SELECT * FROM Admin WHERE id = ?", (id,))
         return self.cursor.fetchone()
     
+    def log(self, usename, password):
+        admins = self.fetch_all()
+        authorised = False
+        for admin in admins:
+            if usename == admin[1] and password == admin[2]:
+                authorised = True
+                break
+        
+        return authorised
+    
     def is_exist(self, id):
         self.cursor.execute("SELECT COUNT(*) FROM Admin WHERE id = ? ",(id,))
         return self.cursor.fetchone()[0] > 0

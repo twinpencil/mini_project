@@ -8,9 +8,10 @@ from CTkMenuBar import *
 from tkinter import filedialog
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
-#from database import Employe
 
+# Importing databases 
 from database import Employe
+from database import Admin
 id = None
 
 
@@ -107,6 +108,8 @@ def load_data(event=None):
     gender_options.set(employe[3])
     print(employe)
 
+# Admin databases
+
 
 app = cutk.CTk()
 
@@ -125,24 +128,31 @@ font1 = ('Arial',20,'bold')
 font2 = ('Arial',12,'bold')
 
 ####LOGIN####
-users ={'admin':'admin'}
 def login():
+    admin_db = Admin.Admin()
     username = user_entry.get()
     password = password_entry.get()
-    if username in users and users[username]==password:
+    if admin_db.log(username, password):
         login_frame.pack_forget()
         main_frame.pack(fill='both',expand=True)
     else:
         messagebox.showerror("Login Failed", "Invalid username or password")
 ####sign up####
 def signup():
+    admin_db = Admin.Admin()
     username = user_entry.get()
     password = password_entry.get()
-    if username in users:
+    
+    if not username or not password:
+        messagebox.showerror("Error", "Entry canèt be empty !")
+        return None
+    
+    if admin_db.log(username, password):
         messagebox.showerror("Sign Up Failed", "Username already exists")
-    else:
-        users[username] = password
-        messagebox.showinfo("Sign Up Successful", "You can now log in with your new informations")
+        return None
+    admin_db.insert(username, password)
+    messagebox.showinfo("Sign Up Successful", "You can now log in with your new informations")
+
 ####REPORT####
 def show_report():
     main_frame.pack_forget()
