@@ -34,9 +34,9 @@ def login():
     password = password_entry.get()
     if username in users and users[username]==password:
         login_frame.pack_forget()
-        time.sleep(0.5)
         main_frame.pack(fill='both',expand=True)
     else:
+        time.sleep(0.5)
         messagebox.showerror("Login Failed", "Invalid username or password")
 ####sign up####
 def signup():
@@ -45,6 +45,7 @@ def signup():
     if username in users:
         messagebox.showerror("Sign Up Failed", "Username already exists")
     else:
+        time.sleep(0.5)
         users[username] = password
         messagebox.showinfo("Sign Up Successful", "You can now log in with your new informations")
 ####REPORT####
