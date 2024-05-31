@@ -156,6 +156,15 @@ def signup():
 ####REPORT####
 def show_report():
     main_frame.pack_forget()
+    # adding data to the new report_tree
+    employes = db.fetch_all()
+    for employe in employes:
+        report_tree.insert(
+            "",
+            index='end',
+            text="",
+            values=employe
+        ) 
     report_frame.pack(fill='both',expand=True)
 ####BACK TO MAIN####
 def back_to_main():
