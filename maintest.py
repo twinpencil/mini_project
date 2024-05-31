@@ -523,7 +523,7 @@ style.configure('Treeview',font=font2,foreground='white',
                             )
 style.map('Treeview',background=[('selected',color4)])
 
-tree = ttk.Treeview(main_frame,height=15)
+tree = ttk.Treeview(main_frame,height=19)
 tree['columns'] = ('ID','Name','Role','Gender','Status')
 ########REPORT COLUMN########
 tree.column('#0',width=0,stretch=tk.NO) #hide the default ffirst colomn
